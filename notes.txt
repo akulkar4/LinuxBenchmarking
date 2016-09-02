@@ -1,3 +1,4 @@
+//Notes
 Introduction:
 The goal overall is to understand the system and operating system overheads better. It will help us see whether our estimations of OS running time are correct and if not what particular chunk of the OS we missed that allowed such a thing to happen.
 
