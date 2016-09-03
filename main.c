@@ -2,6 +2,7 @@
 #include"meas_ovhd.h"
 #include"proc_ovhd.h"
 #include"syscall_ovhd.h"
+#include"creation_ovhd.h"
 
 int main()
 {
@@ -9,7 +10,7 @@ int main()
   procedure_call_overhead();
   system_call_overhead();
   //context_switch_overhead();
-  //creation_overhead();
+  creation_overhead();
 
   return 0;
 }
