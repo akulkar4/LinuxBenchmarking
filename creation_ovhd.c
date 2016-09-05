@@ -8,8 +8,8 @@
 #include<sys/wait.h>
 
 static void process_overhead(void);
-static void thread_overhead(void);
-static void *random_fn(void *ptr);
+void thread_overhead(void);
+void *random_fn(void *ptr);
 
 void creation_overhead(void)
 {
@@ -30,7 +30,6 @@ static void process_overhead(void)
     {
       exit(0);
     }
-  
   else
     {
       wait(&status);
@@ -39,12 +38,13 @@ static void process_overhead(void)
     }
 }
 
-static void thread_overhead(void)
+uint64_t start, end;
+void thread_overhead(void)
 {
-  uint64_t start, end;
+  
   void *ptr;
-
   pthread_t thread_one;
+  
   start = meas_start();
   pthread_create(&thread_one,NULL,random_fn,ptr); 
   pthread_join(thread_one,NULL);
@@ -52,7 +52,7 @@ static void thread_overhead(void)
   printf("Thread creation overhead:%lu\n", end-start);
 }
 
-static void *random_fn(void *ptr)
+void *random_fn(void *ptr)
 {
   return NULL;
 }
