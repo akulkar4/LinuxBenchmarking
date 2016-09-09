@@ -34,10 +34,12 @@ void context_switch_overhead(void)
   else
     {
       uint64_t start;
+      float count_ns;
       //Reading start time from the pipe
       read (pipefd[0], &start, sizeof(start));
       //sampling rdtscp after context switch
       end = meas_stop();
-      printf("Context switch overhead: %lu\n",end-start);
+      count_ns = meas_convert_to_us(end-start);
+      printf("Context switch overhead: %.3f ns\n",count_ns);
     }
 }

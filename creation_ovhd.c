@@ -38,12 +38,12 @@ static void process_overhead(void)
     }
 }
 
-uint64_t start, end;
 void thread_overhead(void)
 {
   
   void *ptr;
   pthread_t thread_one;
+  uint64_t start, end;
   
   start = meas_start();
   pthread_create(&thread_one,NULL,random_fn,ptr); 
