@@ -12,7 +12,7 @@ static __inline__ uint64_t meas_start()
 	       "mov %%edx, %0\n\t"
 	       "mov %%eax, %1\n\t": "=r" (cycles_high), "=r" (cycles_low)::
 	       "%rax", "%rbx", "%rcx", "%rdx");
-  
+                  
   return (((uint64_t)cycles_high) << 32 | (uint64_t)cycles_low);
 }
 
@@ -24,7 +24,7 @@ static __inline__ uint64_t meas_stop()
 	       "mov %%eax, %1\n\t"
 	       "CPUID\n\t": "=r" (cycles_high), "=r" (cycles_low):: "%rax",
 	       "%rbx", "%rcx", "%rdx");
-  
+
   return (((uint64_t)cycles_high) << 32 | (uint64_t)cycles_low);
 }
 

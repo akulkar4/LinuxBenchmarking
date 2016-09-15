@@ -2,6 +2,7 @@
 #include"rdtsc.h"
 #include<stdio.h>
 #include<stdint.h>
+#include<unistd.h>
 
 volatile uint64_t start,end;
 
@@ -17,24 +18,37 @@ void __attribute__ ((noinline)) procedure_arg_7(uint32_t a,uint32_t b,uint32_t c
 
 void procedure_call_overhead(void)
 {
-  volatile int a,b,c,d,e,f,g;
-  
+  volatile uint32_t g1,g2,g3,g4,g5,g6,g7;
   start = meas_start();
-  procedure_arg_7(a,b,c,d,e,f,g);
-  start = meas_start();
-  procedure_arg_6(a,b,c,d,e,f);
-  start = meas_start();
-  procedure_arg_5(a,b,c,d,e);
-  start = meas_start();
-  procedure_arg_4(a,b,c,d);
-  start = meas_start();
-  procedure_arg_3(a,b,c);
-  start = meas_start();
-  procedure_arg_2(a,b);
-  start = meas_start();
-  procedure_arg_1(a);
+  procedure_arg_7(g1,g2,g3,g4,g5,g6,g7);
   start = meas_start();
   procedure_arg_0();
+  //sleep(1);
+  volatile uint32_t a;
+  start = meas_start();
+  procedure_arg_1(a);
+  //sleep(1);
+  volatile uint32_t b1,b2;
+  start = meas_start();
+  procedure_arg_2(b1,b2);
+  //sleep(1);
+  volatile uint32_t c1,c2,c3;
+  start = meas_start();
+  procedure_arg_3(c1,c2,c3);
+  //sleep(1);
+  volatile uint32_t d1,d2,d3,d4;
+  start = meas_start();
+  procedure_arg_4(d1,d2,d3,d4);
+  //sleep(1);
+  volatile uint32_t e1,e2,e3,e4,e5;
+  start = meas_start();
+  procedure_arg_5(e1,e2,e3,e4,e5);
+  //sleep(1);
+  volatile uint32_t f1,f2,f3,f4,f5,f6;
+  start = meas_start();
+  procedure_arg_6(f1,f2,f3,f4,f5,f6);
+  //sleep(1);
+ 
 }
 
 void __attribute__  ((noinline)) procedure_arg_0(void)
