@@ -9,7 +9,7 @@
 
 static void process_overhead(void);
 void thread_overhead(void);
-void *random_fn(void *ptr);
+void random_fn(void *ptr);
 
 void creation_overhead(void)
 {
@@ -46,13 +46,13 @@ void thread_overhead(void)
   uint64_t start, end;
   
   start = meas_start();
-  pthread_create(&thread_one,NULL,random_fn,ptr); 
+  pthread_create(&thread_one,NULL,(void *)&random_fn,ptr); 
   pthread_join(thread_one,NULL);
   end = meas_stop();
   printf("Thread creation overhead:%lu\n", end-start);
 }
 
-void *random_fn(void *ptr)
+void random_fn(void *ptr)
 {
-  return NULL;
+    return;
 }
