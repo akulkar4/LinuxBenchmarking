@@ -12,6 +12,7 @@ void context_switch_overhead(void)
 {
   int pipefd[2];
   pid_t pid;
+  size_t ret;
   int result;
   
   result = pipe(pipefd);
@@ -28,7 +29,7 @@ void context_switch_overhead(void)
       //sample time before the context switch
       start = meas_start();
       //Writing start time to the pipe
-      write(pipefd[1], &start, sizeof(start));
+      ret = write(pipefd[1], &start, sizeof(start));
       exit (0);
     }
   else
@@ -36,7 +37,7 @@ void context_switch_overhead(void)
       uint64_t start;
       float count_ns;
       //Reading start time from the pipe
-      read (pipefd[0], &start, sizeof(start));
+      ret = read (pipefd[0], &start, sizeof(start));
       //sampling rdtscp after context switch
       end = meas_stop();
       count_ns = meas_convert_to_us(end-start);

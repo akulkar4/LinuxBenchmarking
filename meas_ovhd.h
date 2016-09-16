@@ -3,4 +3,5 @@
 
 #define COUNT 5
 void measurement_overhead(void);
+void loop_overhead(void);
 #endif
