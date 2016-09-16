@@ -36,7 +36,7 @@ void context_switch_overhead(void)
   ret = write(testPipe[1], &testStart, sizeof(testStart));
   ret = read(testPipe[0], &testStart, sizeof(testStart));
   testEnd = meas_stop();
-  pipeOvhd = testStart - testEnd;
+  pipeOvhd =  testEnd - testStart;
   printf("Pipe call overhead: %lu\n",pipeOvhd);
 
   pid = fork();
