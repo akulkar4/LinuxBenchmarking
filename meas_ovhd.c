@@ -32,8 +32,8 @@ void loop_overhead()
     start = meas_start();
     for(i=0;i<1000;i++)
     {
-     asm volatile("");
-     dummy += i;
+        asm volatile ("");
+     //measurement_overhead();
     }
     end = meas_stop();
     count_ns = meas_convert_to_us(end-start);
