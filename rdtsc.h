@@ -28,7 +28,7 @@ static __inline__ uint64_t meas_stop()
   return (((uint64_t)cycles_high) << 32 | (uint64_t)cycles_low);
 }
 
-static __inline__ float meas_convert_to_us(float ticks)
+static __inline__ float meas_convert_to_ns(float ticks)
 {
   /*We will be converting the RDTSC cycles to nanoseconds or us*/
   float ns_count;

@@ -10,53 +10,64 @@
 uint64_t start, end;
 void context_switch_overhead(void)
 {
-  int pipefd[2];
-  int testPipe[2];
+  int pingfd[2];
+  int pongfd[2];
   pid_t pid;
   size_t ret;
-  int result;
-  uint64_t testStart, testEnd, pipeOvhd;
+  int pipe_result;
+  float count_ns,result,pipeOvhd;
+  uint64_t testStart, testEnd;
 
   //create two pipes
-  result = pipe(pipefd);
-  if (result < 0)
+  pipe_result = pipe(pingfd);
+  if (pipe_result < 0)
     {
-      perror("pipe");
+      perror("ping");
       exit (1);
     }
-  result = pipe(testPipe);
-  if (result < 0)
+  pipe_result = pipe(pongfd);
+  if (pipe_result < 0)
   {
-    perror("testPipe");
+    perror("pong");
     exit (1);
   }
 
   //measuring testPipe read-write latency before forking
-  testStart = meas_start();
-  ret = write(testPipe[1], &testStart, sizeof(testStart));
-  ret = read(testPipe[0], &testStart, sizeof(testStart));
+  /*testStart = meas_start();
+  for(int i=0;i<2000.0;i++)
+  {
+   ret = write(pongfd[1], &testStart, sizeof(testStart));
+   ret = read(pongfd[0], &testStart, sizeof(testStart));      
+  }
   testEnd = meas_stop();
-  pipeOvhd =  testEnd - testStart;
-  printf("Pipe call overhead: %lu\n",pipeOvhd);
-
+  pipeOvhd = (testStart - testEnd)/2000.0;
+  count_ns = meas_convert_to_ns(pipeOvhd);
+  //pipeOvhd =  testEnd - testStart;
+  printf("Pipe call overhead: %.3f\n",pipeOvhd);*/
+  
   pid = fork();
   if (pid == 0)
     {
       //sample time before the context switch
       start = meas_start();
-      //Writing start time to the pipe
-      ret = write(pipefd[1], &start, sizeof(start));
+      for(int i=0; i<1000;i++)
+      {
+        ret = write(pingfd[1], &start, sizeof(start));
+        ret = read(pongfd[0], &testStart, sizeof(testStart));      
+      }
+      end = meas_stop();
+      result = (end-start)/2000.0;
+      count_ns = meas_convert_to_ns(result);
+      printf("Context switch overhead: %.3f ns\n",count_ns);
       exit (0);
     }
   else
     {
       uint64_t start;
-      float count_ns;
-      //Reading start time from the pipe
-      ret = read (pipefd[0], &start, sizeof(start));
-      //sampling rdtscp after context switch
-      end = meas_stop();
-      count_ns = meas_convert_to_us(end-start-pipeOvhd);
-      printf("Context switch overhead: %.3f ns\n",count_ns);
+      for(int i=0;i<1000;i++)
+      {
+          ret = read (pingfd[0], &start, sizeof(start));
+          ret = write(pongfd[1], &start, sizeof(start));      
+      }
     }
 }

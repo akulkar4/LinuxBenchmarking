@@ -18,7 +18,7 @@ void measurement_overhead()
       sum = sum + (end-start);
     }
   
-  count_ns = meas_convert_to_us(end - start);
+  count_ns = meas_convert_to_ns(end - start);
   printf("The measurement overhead is %.3f ns\n",count_ns);
 }
 
@@ -26,18 +26,16 @@ void loop_overhead()
 {
     //Finding out the overhead of an empty loop so that it can be subtracted when needed
     uint64_t start,end;
-    uint64_t dummy;
-    float count_ns;
-    uint32_t i=0;
+    float count_ns,result;
+    uint32_t i;
+    
     start = meas_start();
-    for(i=0;i<1000;i++)
+    for(i=0;i<1000000;i++)
     {
-        asm volatile ("");
-     //measurement_overhead();
+    
     }
     end = meas_stop();
-    count_ns = meas_convert_to_us(end-start);
-    count_ns = count_ns/1000;
+    result = ((end-start)/1000000.0); 
+    count_ns = meas_convert_to_ns(result);
     printf("The loop overhead is %.3f ns\n", count_ns);
-    printf("Dummy: %lu\n",dummy);
 }

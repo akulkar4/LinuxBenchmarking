@@ -8,12 +8,16 @@
 void system_call_overhead(void)
 {
   uint64_t start, end;
-  float count_ns;
+  float count_ns,result;
 
   start = meas_start();
-  getppid();
+  for(int i=0;i<1000000;i++)
+  {
+      getppid();      
+  }
   end = meas_stop();
-  count_ns = meas_convert_to_us(end - start);
+  result = ((end-start)/1000000.0); 
+  count_ns = meas_convert_to_ns(result);
   printf("getppid overhead:%.3f ns\n",count_ns);
 
 }

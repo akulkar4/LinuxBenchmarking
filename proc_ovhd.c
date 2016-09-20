@@ -18,83 +18,133 @@ void __attribute__ ((noinline)) procedure_arg_7(uint32_t a,uint32_t b,uint32_t c
 
 void procedure_call_overhead(void)
 {
-  volatile uint32_t g1,g2,g3,g4,g5,g6,g7;
+  uint32_t g1,g2,g3,g4,g5,g6,g7;
+  float result,count_ns;
+  int r ;
+  uint32_t i;
   start = meas_start();
-  procedure_arg_7(g1,g2,g3,g4,g5,g6,g7);
+  for(i = 0; i<1000000;i++)
+  {
+    procedure_arg_0();  
+  }
+  end = meas_stop();
+  result = ((end-start)/1000000.0);
+  count_ns = meas_convert_to_ns(result);
+  printf("Proc 0 arguments overhead:%.3f ns\n",count_ns);
+  
+  uint32_t a;
   start = meas_start();
-  procedure_arg_0();
-  //sleep(1);
-  volatile uint32_t a;
+  for(i = 0; i< 1000000;i++)
+  {
+    procedure_arg_1(a);  
+  }
+  end = meas_stop();
+  result = ((end-start)/1000000.0); 
+  count_ns = meas_convert_to_ns(result);
+  printf("Proc 1 arguments overhead:%.3f\n",count_ns);
+
+  uint32_t b1,b2;
   start = meas_start();
-  procedure_arg_1(a);
-  //sleep(1);
-  volatile uint32_t b1,b2;
+  for(i = 0; i< 1000000;i++)
+  {
+    procedure_arg_2(b1,b2);  
+  }
+  end = meas_stop();
+  result = ((end-start)/1000000.0);
+  count_ns = meas_convert_to_ns(result);
+  printf("Proc 2 arguments overhead:%.3f\n",count_ns);
+  
+  uint32_t c1,c2,c3;
   start = meas_start();
-  procedure_arg_2(b1,b2);
-  //sleep(1);
-  volatile uint32_t c1,c2,c3;
+  for(i = 0; i< 1000000;i++)
+  {
+    procedure_arg_3(c1,c2,c3);  
+  }
+  end = meas_stop();
+  result = ((end-start)/1000000.0);
+  count_ns = meas_convert_to_ns(result);
+  printf("Proc 3 arguments overhead:%.3f\n",count_ns);
+  
+  uint32_t d1,d2,d3,d4;
   start = meas_start();
-  procedure_arg_3(c1,c2,c3);
-  //sleep(1);
-  volatile uint32_t d1,d2,d3,d4;
+  for(i = 0; i< 1000000;i++)
+  {
+    procedure_arg_4(d1,d2,d3,d4);  
+  }
+  end = meas_stop();
+  result = ((end-start)/1000000.0);
+  count_ns = meas_convert_to_ns(result);
+  printf("Proc 4 arguments overhead:%.3f\n",count_ns);
+  
+  uint32_t e1,e2,e3,e4,e5;
   start = meas_start();
-  procedure_arg_4(d1,d2,d3,d4);
-  //sleep(1);
-  volatile uint32_t e1,e2,e3,e4,e5;
+  for(i = 0; i< 1000000;i++)
+  {
+    procedure_arg_5(e1,e2,e3,e4,e5);  
+  }
+  end = meas_stop();
+  result = ((end-start)/1000000.0);
+  count_ns = meas_convert_to_ns(result);
+  printf("Proc 5 arguments overhead:%.3f\n",count_ns);
+  
+  uint32_t f1,f2,f3,f4,f5,f6;
   start = meas_start();
-  procedure_arg_5(e1,e2,e3,e4,e5);
-  //sleep(1);
-  volatile uint32_t f1,f2,f3,f4,f5,f6;
+  for(i = 0; i< 1000000;i++)
+  {
+    procedure_arg_6(f1,f2,f3,f4,f5,f6);  
+  }
+  end = meas_stop();
+  result = ((end-start)/1000000.0);
+  count_ns = meas_convert_to_ns(result);
+  printf("Proc 6 arguments overhead:%.3f\n",count_ns);
+  
   start = meas_start();
-  procedure_arg_6(f1,f2,f3,f4,f5,f6);
-  //sleep(1);
- 
+  for(i = 0; i< 1000000;i++)
+  {
+    procedure_arg_7(g1,g2,g3,g4,g5,g6,g7);  
+  }
+  end = meas_stop();
+  result = ((end-start)/1000000.0);
+  count_ns = meas_convert_to_ns(result);
+  printf("Proc 7 arguments overhead:%.3f\n",count_ns);
 }
 
 void __attribute__  ((noinline)) procedure_arg_0(void)
 {
-  end = meas_stop();
-  printf("Proc zero arguments overhead:%lu\n",end-start);
+    return;
 }
 
 void __attribute__  ((noinline)) procedure_arg_1(uint32_t a)
 {
-  end = meas_stop();
-  printf("Proc one arguments overhead:%lu\n",end-start);
+    return;
 }
 
 void __attribute__  ((noinline)) procedure_arg_2(uint32_t a, uint32_t b)
 {
-  end = meas_stop();
-  printf("Proc two arguments overhead:%lu\n",end-start);
+    return;
 }
 
 void __attribute__  ((noinline)) procedure_arg_3(uint32_t a, uint32_t b, uint32_t c)
 {
-  end = meas_stop();
-  printf("Proc three arguments overhead:%lu\n",end-start);
+    return;
 }
 
 void __attribute__  ((noinline)) procedure_arg_4(uint32_t a, uint32_t b, uint32_t c, uint32_t d)
 {
-  end = meas_stop();
-  printf("Proc four arguments overhead:%lu\n",end-start);
+    return;
 }
 
 void __attribute__  ((noinline)) procedure_arg_5(uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e)
 {
-  end = meas_stop();
-  printf("Proc five arguments overhead:%lu\n",end-start);
+    return;
 }
 
 void __attribute__  ((noinline)) procedure_arg_6(uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f)
 {
-  end = meas_stop();
-  printf("Proc six arguments overhead:%lu\n",end-start);
+    return;
 }
 
 void __attribute__  ((noinline)) procedure_arg_7(uint32_t a, uint32_t b, uint32_t c, uint32_t d, uint32_t e, uint32_t f, uint32_t g)
 {
-  end = meas_stop();
-  printf("Proc seven arguments overhead:%lu\n",end-start);
+    return;
 }

@@ -11,24 +11,21 @@
 void pagefault_overhead()
 {
   uint64_t start,end;
-  float count_ns;
+  float count_ns,result;
   char * dataPtr;
-  char buffer;
-  
   int pagesize,fd;
   fd=open("notes.txt",O_RDWR);
   pagesize = getpagesize();
-  //first lets mmap a disk file
   
-  dataPtr = mmap (0,pagesize,(PROT_READ | PROT_WRITE),MAP_SHARED,fd,0);
-  if(dataPtr == MAP_FAILED)
-  {
-      printf("Oops!\n");
-  }
   start = meas_start();
-  dataPtr[0] = '1';
+  for(int i=0; i<1000;i++)
+  {
+      dataPtr = mmap (0,pagesize,(PROT_READ | PROT_WRITE),MAP_SHARED,fd,0);
+      dataPtr[0] = '1';
+      munmap(dataPtr, pagesize);      
+  }
   end = meas_stop();
-  
-  count_ns = meas_convert_to_us(end - start);
+  result = (end-start)/1000.0;
+  count_ns = meas_convert_to_ns(result);
   printf("The pagefault overhead is %.3f ns\n",count_ns);
 }
