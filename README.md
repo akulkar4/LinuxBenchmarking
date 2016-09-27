@@ -7,6 +7,9 @@ In order to get results that are consistent, we need to run the test suite on on
 ## Usage
 1. Clone the repo.
 2. make
-3. sudo nice --20 taskset -c 0 ./benchmark
+3. sudo nice --20 taskset -c 0 ./benchmark <listSize> <listStride>
+
+To run the script for testing all values for memory latency, run
+sudo nice --20 taskset -c 0 ./testScript.h (The value ranges can be changed inside the script file)
 
 

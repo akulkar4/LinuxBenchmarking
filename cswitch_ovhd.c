@@ -15,7 +15,7 @@ void context_switch_overhead(void)
   pid_t pid;
   size_t ret;
   int pipe_result;
-  float count_ns,result,pipeOvhd;
+  float count_ns[100], result[100], pipeOvhd;
   uint64_t testStart, testEnd;
 
   //create two pipes
@@ -33,41 +33,49 @@ void context_switch_overhead(void)
   }
 
   //measuring testPipe read-write latency before forking
-  /*testStart = meas_start();
+  testStart = meas_start();
   for(int i=0;i<2000.0;i++)
   {
    ret = write(pongfd[1], &testStart, sizeof(testStart));
    ret = read(pongfd[0], &testStart, sizeof(testStart));      
   }
   testEnd = meas_stop();
-  pipeOvhd = (testStart - testEnd)/2000.0;
-  count_ns = meas_convert_to_ns(pipeOvhd);
-  //pipeOvhd =  testEnd - testStart;
-  printf("Pipe call overhead: %.3f\n",pipeOvhd);*/
+  pipeOvhd = (testEnd - testStart)/2000.0;
+  pipeOvhd = meas_convert_to_ns(pipeOvhd);
+  
+  printf("Pipe call overhead: %.3f\n",pipeOvhd);
   
   pid = fork();
   if (pid == 0)
     {
       //sample time before the context switch
-      start = meas_start();
-      for(int i=0; i<1000;i++)
+      for(int i=0; i<100;i++)
       {
-        ret = write(pingfd[1], &start, sizeof(start));
-        ret = read(pongfd[0], &testStart, sizeof(testStart));      
+          start = meas_start();
+          for(int j=0; j<100; j++)
+          {
+              ret = write(pingfd[1], &start, sizeof(start));
+              ret = read(pongfd[0], &testStart, sizeof(testStart));      
+          }
+          end = meas_stop();
+          result[i] = (end-start)/200.0;
+          count_ns[i] = meas_convert_to_ns(result[i]);
       }
-      end = meas_stop();
-      result = (end-start)/2000.0;
-      count_ns = meas_convert_to_ns(result);
-      printf("Context switch overhead: %.3f ns\n",count_ns);
+      printf("Process context switch overhead");
+      float sd1 = standard_deviation(count_ns,100);
+      printf("Standard deviation %.3f\n",sd1);
       exit (0);
     }
   else
     {
       uint64_t start;
-      for(int i=0;i<1000;i++)
+      for(int i=0;i<100;i++)
       {
-          ret = read (pingfd[0], &start, sizeof(start));
-          ret = write(pongfd[1], &start, sizeof(start));      
+          for(int j=0; j<100; j++)
+          {
+              ret = read (pingfd[0], &start, sizeof(start));
+              ret = write(pongfd[1], &start, sizeof(start));      
+          }
       }
     }
 }
